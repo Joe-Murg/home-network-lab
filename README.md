@@ -9,6 +9,7 @@ The lab focuses on building a working network, testing connectivity, and trouble
 ---
 
 ## Network Topology
+![Topology](screenshots/topology.png)
 
 The network consists of:
 
