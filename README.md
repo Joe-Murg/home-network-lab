@@ -9,7 +9,8 @@ The lab focuses on building a working network, testing connectivity, and trouble
 ---
 
 ## Network Topology
-This shows the full lab setup, including both subnets, switches, and the router connecting them.
+The diagram below shows the full lab setup, including both subnets, switches, and the router connecting them.
+
 ![Topology](screenshots/topology.png)
 
 The network consists of:
@@ -18,6 +19,8 @@ The network consists of:
 - 2 Switches (2960)
 - Subnet 1: 3 devices (2 PCs + 1 laptop)
 - Subnet 2: 2 PCs
+
+Subnet details:
 
 - Subnet 1: `192.168.1.0/24`
 - Subnet 2: `192.168.2.0/24`
@@ -42,45 +45,52 @@ Devices in each subnet connect to a switch, which connects to the router.
 | PC3    | 192.168.2.11  | 192.168.2.1    |
 
 ### Example IP Configuration (Subnet 1)
-Example of a device configured in the 192.168.1.0/24 network with the correct default gateway.
-![PC0 IP Config](screenshots/PC0-IP-Config.png)
+Device configured in Subnet 1 with the correct default gateway:
+
+
 
 ### Example IP Configuration (Subnet 2)
-Example of a device configured in the 192.168.2.0/24 network with the correct default gateway.
+Device configured in Subnet 2 with the correct default gateway:
+
 ![PC2 IP Config](screenshots/PC2-IP-Config.png)
 
 ---
 
 ## Router Configuration
 The router is configured with two interfaces, each acting as the default gateway for its respective subnet.
-![Router CLI](screenshots/Router-CLI.png)
 
-```text
+```bash
 enable
 configure terminal
 
 interface g0/0
-ip address 192.168.1.1 255.255.255.0
-no shutdown
+ ip address 192.168.1.1 255.255.255.0
+ no shutdown
 
 interface g0/1
-ip address 192.168.2.1 255.255.255.0
-no shutdown
+ ip address 192.168.2.1 255.255.255.0
+ no shutdown 
+```
+ ---
 
----
+## Connectivity Tests
 
 ### Successful Connectivity Between Subnets
 Ping test showing successful communication between devices on different subnets.
 ![Ping Success](screenshots/ping-success.png)
 
----
-
 ### Failed Ping (Incorrect Default Gateway)
-Ping failure caused by an incorrectly configured default gateway.
+When a device is configured with the wrong default gateway, pings to other subnets fail.
+
+- Issue: Default gateway set incorrectly on PC0.
+- Symptom: Ping to 192.168.2.10 fails.
+
 ![Ping Failure](screenshots/wrong-gateway-fail.png)
 
----
+### Fix: Correct Default Gateway
+After updating the device to use the correct gateway (192.168.1.1 for Subnet 1), connectivity is restored.
 
-### Connectivity Restored After Fix
-After correcting the default gateway, communication between subnets is restored.
+- Action: `PC0 → IP Configuration → Set Default Gateway = 192.168.1.1`
+- Result: Successful ping to 192.168.2.10.
+
 ![Ping Fixed](screenshots/gateway-fix-success.png)
